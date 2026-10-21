@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Shorts Blocker",
+  "version": "1.0",
+  "description": "Не даёт смотреть YouTube Shorts: перекидывает на главную страницу. Можно включать и выключать.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Shorts Blocker",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
