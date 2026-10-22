@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Режим хакера",
+  "version": "1.0",
+  "description": "Превращает любой сайт в хакерский терминал. Нажми ещё раз, чтобы выключить.",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Режим хакера 💻"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+H" },
+      "description": "Включить или выключить режим хакера"
+    }
+  }
+}
