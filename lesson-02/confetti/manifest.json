@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Конфетти",
+  "version": "1.0",
+  "description": "Нажми на значок — и по странице полетит конфетти с фруктами!",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Конфетти! 🎉"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+C" },
+      "description": "Запустить конфетти"
+    }
+  }
+}
