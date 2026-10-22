@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Ластик-взрыватель",
+  "version": "1.0",
+  "description": "Включи режим и нажимай на любую часть сайта — она взорвётся и исчезнет!",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Ластик-взрыватель 💣"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+B" },
+      "description": "Включить или выключить режим взрыва"
+    }
+  }
+}
