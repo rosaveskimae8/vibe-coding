@@ -5,6 +5,8 @@
 import os
 import tempfile
 
+import av
+import numpy as np
 import telebot
 from faster_whisper import WhisperModel
 
@@ -17,6 +19,21 @@ bot = telebot.TeleBot(TOKEN)
 MODEL_SIZE = os.environ.get("WHISPER_MODEL", "base")
 print(f"Загружаю модель распознавания речи ({MODEL_SIZE})...")
 model = WhisperModel(MODEL_SIZE, device="cpu", compute_type="int8")
+
+
+def load_audio(path):
+    """Читаем звук сами: моно, 16 000 Гц — так, как нужно Whisper.
+    (Встроенное чтение faster-whisper ломается на новых версиях библиотеки av.)"""
+    resampler = av.AudioResampler(format="s16", layout="mono", rate=16000)
+    chunks = []
+    with av.open(path) as container:
+        for frame in container.decode(audio=0):
+            for f in resampler.resample(frame):
+                chunks.append(f.to_ndarray())
+        for f in resampler.resample(None):
+            chunks.append(f.to_ndarray())
+    audio = np.concatenate(chunks, axis=1).flatten()
+    return audio.astype(np.float32) / 32768.0
 
 
 # Ответ на команду /start
@@ -52,7 +69,7 @@ def voice(message):
         with tempfile.NamedTemporaryFile(suffix=".ogg") as f:
             f.write(data)
             f.flush()
-            segments, info = model.transcribe(f.name, beam_size=1)
+            segments, info = model.transcribe(load_audio(f.name), beam_size=1)
             text = " ".join(s.text.strip() for s in segments).strip()
 
         if not text:
