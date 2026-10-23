@@ -1,0 +1,16 @@
+# Служба systemd: бот работает всегда, даже после перезагрузки сервера.
+# Токен лежит на сервере в /root/echo-bot/.env (BOT_TOKEN=...), не в GitHub.
+[Unit]
+Description=Echo Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/root/echo-bot
+EnvironmentFile=/root/echo-bot/.env
+ExecStart=/root/echo-bot/venv/bin/python echo_bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
